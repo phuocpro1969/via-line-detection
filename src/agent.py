@@ -8,7 +8,7 @@
 
 import torch.nn as nn
 import torch
-from util_hourglass import *
+from . import util_hourglass
 from copy import deepcopy
 import numpy as np
 from torch.autograd import Variable
