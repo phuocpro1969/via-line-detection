@@ -5,7 +5,7 @@
 #########################################################################
 import torch
 import torch.nn as nn
-from . import util_hourglass
+import util_hourglass
 # from src.util_hourglass import *
 
 ####################################################################

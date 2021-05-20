@@ -5,7 +5,7 @@ import argparse
 # import numpy as np
 
 # from src.util import adjust_fits
-from net import Net
+import net
 from src.parameters import Parameters
 from src.processing_image import warp_image
 
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     parser.add_argument('-s','--save_video', type=bool, default=False)
     args = vars(parser.parse_args())
     
-    net = Net()
+    net = net.Net()
     p = Parameters()
     # load model epoch 34 with total loss is 0.7828
     net.load_model(1,0.8777)

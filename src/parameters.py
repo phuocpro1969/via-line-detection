@@ -11,9 +11,9 @@ class Parameters():
     n_epoch = 30
     l_rate = 0.0001
     weight_decay=1e-5
-    save_path = "savefile/"
+    save_path = "src/savefile/"
     # train from scratch.
-    model_path = "savefile/"
+    model_path = "src/savefile/"
     batch_size = 8
     x_size = 512
     y_size = 256
