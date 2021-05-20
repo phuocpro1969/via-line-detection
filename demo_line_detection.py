@@ -1,10 +1,10 @@
 import cv2
-import torch 
+# import torch 
 import time
 import argparse
-import numpy as np
+# import numpy as np
 
-from src import util
+# from src.util import adjust_fits
 from . import net
 from src.parameters import Parameters
 from src.processing_image import warp_image
@@ -49,7 +49,7 @@ if __name__ == "__main__":
             t_image = cv2.resize(image,(512,256))
             x , y = net.predict(t_image)
             # fits = np.array([np.polyfit(_y, _x, 1) for _x, _y in zip(x, y)])
-            # fits = util.adjust_fits(fits)
+            # fits = adjust_fits(fits)
             image_points = net.get_image_points()
             # mask = net.get_mask_lane(fits)
             cur_time = time.time()
