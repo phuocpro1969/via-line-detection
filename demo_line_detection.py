@@ -4,7 +4,7 @@ import time
 import argparse
 import numpy as np
 
-import _util_
+from src._util_ import adjust_fits
 from _net_ import Net
 from src._parameters_ import Parameters
 from src.processing_image import warp_image

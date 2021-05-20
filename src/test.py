@@ -6,8 +6,8 @@ import numpy as np
 from copy import deepcopy
 from data_loader import Generator
 import time
-from parameters import Parameters
-import util
+from _parameters_ import Parameters
+import _util_
 from tqdm import tqdm
 import csaps
 import os
