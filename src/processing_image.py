@@ -1,9 +1,9 @@
 import numpy as np
 import cv2
 import math
-from src import parameters
+from src.parameters import Parameters
 
-p = parameters.Parameters()
+p = Parameters()
 
 def warp_image(img):
     

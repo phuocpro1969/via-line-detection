@@ -14,7 +14,7 @@ import numpy as np
 from torch.autograd import Variable
 import hourglass_network
 from torch.autograd import Function as F
-from src import parameters
+from src.parameters import Parameters
 import math
 import util
 import hard_sampling
@@ -32,7 +32,7 @@ class Agent(nn.Module):
     def __init__(self):
         super(Agent, self).__init__()
 
-        self.p = parameters.Parameters()
+        self.p = Parameters()
 
         self.lane_detection_network = hourglass_network.lane_detection_network()
 

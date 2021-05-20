@@ -5,12 +5,11 @@ from copy import deepcopy
 import numpy as np
 from torch.autograd import Variable
 from torch.autograd import Function as F
-from src import parameters
-# from src.parameters import Parameters
+from src.parameters import Parameters
 
 import math
 
-p = parameters.Parameters()
+p = Parameters()
 
 def cross_entropy2d(inputs, target, weight=None, size_average=True):
     loss = torch.nn.CrossEntropyLoss()

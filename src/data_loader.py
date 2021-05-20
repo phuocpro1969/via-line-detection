@@ -11,7 +11,7 @@ import cv2
 import json
 import random
 from copy import deepcopy
-from src import parameters
+from src.parameters import Parameters
 
 
 #########################################################################
@@ -39,7 +39,7 @@ class Generator(object):
     ## initialize (load data set from url)
     ################################################################################
     def __init__(self):
-        self.p = parameters.Parameters()
+        self.p = Parameters()
 
         # load training set from curvelanes datasets.
         self.train_data = []

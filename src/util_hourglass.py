@@ -5,9 +5,9 @@
 #########################################################################
 import torch
 import torch.nn as nn
-from src import parameters
+from src.parameters import Parameters
 
-p = parameters.Parameters()
+p = Parameters()
 
 def backward_hook(self, grad_input, grad_output):
     print('grad_input norm:', grad_input[0].data.norm())
