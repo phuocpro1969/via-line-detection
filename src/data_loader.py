@@ -11,7 +11,7 @@ import cv2
 import json
 import random
 from copy import deepcopy
-from . import parameters
+from src import parameters
 
 
 #########################################################################

@@ -5,7 +5,7 @@ from copy import deepcopy
 import numpy as np
 from torch.autograd import Variable
 from torch.autograd import Function as F
-from . import parameters
+from src import parameters
 # from src.parameters import Parameters
 
 import math

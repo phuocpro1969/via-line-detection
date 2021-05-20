@@ -14,7 +14,7 @@ import numpy as np
 from torch.autograd import Variable
 import hourglass_network
 from torch.autograd import Function as F
-from . import parameters
+from src import parameters
 import math
 import util
 import hard_sampling

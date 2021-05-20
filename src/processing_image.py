@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import math
-from . import parameters
+from src import parameters
 
 p = parameters.Parameters()
 
