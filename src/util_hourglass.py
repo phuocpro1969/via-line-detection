@@ -1,11 +1,7 @@
-#########################################################################
-##
-## Some utility for training, data processing, and network.
-##
-#########################################################################
 import torch
 import torch.nn as nn
 from _parameters_ import Parameters
+# from src.parameters import Parameters
 
 p = Parameters()
 

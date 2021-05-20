@@ -1,10 +1,3 @@
-# %%writefile train.py
-#############################################################################################################
-##
-##  Source code for training. In this source code, there are initialize part, training part, ...
-##
-#############################################################################################################
-
 import cv2
 import torch
 import agent
@@ -13,6 +6,7 @@ from data_loader import Generator
 from _parameters_ import Parameters
 import test
 import evaluation
+import _util_
 import copy
 
 p = Parameters()
@@ -52,8 +46,7 @@ def Training():
     print('Setup GPU mode')
     if torch.cuda.is_available():
         lane_agent.cuda()
-        # lane_agent.cpu()
-        # torch.backends.cudnn.benchmark=True
+        #torch.backends.cudnn.benchmark=True
 
     ##############################
     ## Loop for training
@@ -96,7 +89,7 @@ def Training():
 
         #     for idx in index:
         #         print("compute score")
-        #         with open("/home/kym/Dropbox/eval_result2_"+str(idx)+"_.txt", 'a') as make_file:
+        #         with open("/eval_result2_"+str(idx)+"_.txt", 'a') as make_file:
         #             make_file.write( "epoch : " + str(epoch) + " loss : " + str(loss_p.cpu().data) )
         #             make_file.write(evaluation.LaneEval.bench_one_submit("test_result_"+str(epoch)+"_"+str(idx)+".json", "test_label.json"))
         #             make_file.write("\n")

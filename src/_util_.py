@@ -108,7 +108,6 @@ def draw_poly(poly, image, color):
 ###############################################################
 def adjust_fits(fits):
     min_y = 20
-    len_fit = fits.shape[0]
     
     values_x = np.array([np.poly1d(fit)(min_y) for fit in fits ])
     order = np.argsort(values_x)
@@ -120,7 +119,6 @@ def adjust_fits(fits):
 
 def get_steer_angle(fits):
     
-    min_y = 20
     len_fit = fits.shape[0]
 
     if len_fit > 3:

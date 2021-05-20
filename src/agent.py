@@ -1,18 +1,10 @@
-# %%writefile agent.py
-
-#########################################################################
-##
-## train agent that has some utility for training and saving.
-##
-#########################################################################
-
 import torch.nn as nn
 import torch
-import util_hourglass
+from util_hourglass import *
 from copy import deepcopy
 import numpy as np
 from torch.autograd import Variable
-import hourglass_network
+from hourglass_network import lane_detection_network
 from torch.autograd import Function as F
 from _parameters_ import Parameters
 import math
@@ -34,7 +26,7 @@ class Agent(nn.Module):
 
         self.p = Parameters()
 
-        self.lane_detection_network = hourglass_network.lane_detection_network()
+        self.lane_detection_network = lane_detection_network()
 
         self.setup_optimizer()
 
@@ -57,7 +49,7 @@ class Agent(nn.Module):
     ## Make ground truth for key point estimation
     #####################################################
     def make_ground_truth_point(self, target_lanes, target_h):
-
+    
         target_lanes, target_h = _util_.sort_batch_along_y(target_lanes, target_h)
 
         ground = np.zeros((len(target_lanes), 3, self.p.grid_y, self.p.grid_x))
@@ -82,12 +74,12 @@ class Agent(nn.Module):
 
         return ground, ground_binary
 
-
     #####################################################
     ## Make ground truth for instance feature
     #####################################################
-    def make_ground_truth_instance(self, target_lanes, target_h):
 
+    def make_ground_truth_instance(self, target_lanes, target_h):
+    
         ground = np.zeros((len(target_lanes), 1, self.p.grid_y*self.p.grid_x, self.p.grid_y*self.p.grid_x))
 
         for batch_index, batch in enumerate(target_lanes):
@@ -155,6 +147,7 @@ class Agent(nn.Module):
     #####################################################
     ## compute loss function and optimize
     #####################################################
+
     def train_point(self, inputs, target_lanes, target_h, epoch, data_list):
         real_batch_size = len(target_lanes)
 
@@ -174,7 +167,7 @@ class Agent(nn.Module):
         ground_truth_instance = Variable(ground_truth_instance).cuda()
         ground_truth_instance.requires_grad=False
 
-        #_util_.visualize_gt(ground_truth_point[0], ground_truth_instance[0], inputs[0])
+        #util.visualize_gt(ground_truth_point[0], ground_truth_instance[0], inputs[0])
 
         # update lane_detection_network
         result, attentions = self.predict_lanes(inputs)
