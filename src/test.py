@@ -135,7 +135,7 @@ def evaluation(loader, lane_agent, index= -1, thresh = p.threshold_point, name =
         x_ = []
         y_ = []
         for i, j in zip(x, y):
-            temp_x, temp_y = util.convert_to_original_size(i, j, ratio_w, ratio_h)
+            temp_x, temp_y = _util_.convert_to_original_size(i, j, ratio_w, ratio_h)
             x_.append(temp_x)
             y_.append(temp_y)
 
@@ -339,9 +339,9 @@ def test(lane_agent, test_images, thresh = p.threshold_point, index= -1):
         in_x, in_y = eliminate_fewer_points(raw_x, raw_y)
                 
         # sort points along y 
-        in_x, in_y = util.sort_along_y(in_x, in_y)  
+        in_x, in_y = _util_.sort_along_y(in_x, in_y)  
 
-        result_image = util.draw_points(in_x, in_y, deepcopy(image))
+        result_image = _util_.draw_points(in_x, in_y, deepcopy(image))
 
         out_x.append(in_x)
         out_y.append(in_y)
@@ -388,14 +388,14 @@ def test_ori(lane_agent, ori_image, test_images,w_ratio, h_ratio, draw_type, thr
         in_x, in_y = eliminate_fewer_points(raw_x, raw_y)
      
         # sort points along y 
-        in_x, in_y = util.sort_along_y(in_x, in_y)  
+        in_x, in_y = _util_.sort_along_y(in_x, in_y)  
 
         if draw_type == 'line':
-            result_image = util.draw_lines_ori(in_x, in_y, ori_image,w_ratio, h_ratio)  # 将最后且后处理后的拟合曲线绘制与原图上.
+            result_image = _util_.draw_lines_ori(in_x, in_y, ori_image,w_ratio, h_ratio)  # 将最后且后处理后的拟合曲线绘制与原图上.
         elif draw_type == 'point':
-            result_image = util.draw_point_ori(in_x, in_y, ori_image,w_ratio, h_ratio)  # 将最后且后处理后的坐标点绘制与原图上.
+            result_image = _util_.draw_point_ori(in_x, in_y, ori_image,w_ratio, h_ratio)  # 将最后且后处理后的坐标点绘制与原图上.
         else:
-            result_image = util.draw_points(in_x, in_y,deepcopy(image))  # 将最后且后处理后的坐标点绘制于resize图上.
+            result_image = _util_.draw_points(in_x, in_y,deepcopy(image))  # 将最后且后处理后的坐标点绘制于resize图上.
 
         out_x.append(in_x)
         out_y.append(in_y)
