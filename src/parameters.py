@@ -1,3 +1,4 @@
+##%%writefile parameters.py
 #############################################################################################################
 ##
 ##  Parameters
@@ -9,12 +10,13 @@ import cv2
 class Parameters():
     # thay đổi số lượng epoch ở đây
     n_epoch = 30
+
     l_rate = 0.0001
     weight_decay=1e-5
-    save_path = "src/savefile/"
+    save_path = "savefile/"
     # train from scratch.
-    model_path = "src/savefile/"
-    batch_size = 8
+    model_path = "savefile/"
+    batch_size = 16
     x_size = 512
     y_size = 256
     resize_ratio = 8
