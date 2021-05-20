@@ -12,7 +12,7 @@ import numpy as np
 from copy import deepcopy
 from data_loader import Generator
 import time
-from src.parameters import Parameters
+from _parameters_ import Parameters
 import util
 from tqdm import tqdm
 import csaps

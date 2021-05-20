@@ -4,7 +4,7 @@ import numpy as np
 from src.util import draw_points
 from src.processing_image import warp_image
 from src.hourglass_network import lane_detection_network
-from src.parameters import Parameters
+from src._parameters_ import Parameters
 from copy import deepcopy
 from torch.autograd import Variable
 

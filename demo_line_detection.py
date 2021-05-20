@@ -6,7 +6,7 @@ import argparse
 
 # from src.util import adjust_fits
 import net
-from src.parameters import Parameters
+from src._parameters_ import Parameters
 from src.processing_image import warp_image
 
 if __name__ == "__main__":

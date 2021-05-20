@@ -5,7 +5,7 @@
 #########################################################################
 import torch
 import torch.nn as nn
-from src.parameters import Parameters
+from _parameters_ import Parameters
 
 p = Parameters()
 

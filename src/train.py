@@ -10,7 +10,7 @@ import torch
 import agent
 import numpy as np
 from data_loader import Generator
-from src.parameters import Parameters
+from _parameters_ import Parameters
 import test
 import evaluation
 import copy
