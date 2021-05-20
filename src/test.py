@@ -12,13 +12,13 @@ import numpy as np
 from copy import deepcopy
 from data_loader import Generator
 import time
-from . import util_hourglass
+import parameters
 import util
 from tqdm import tqdm
 import csaps
 import os
 
-p = util_hourglass.Parameters()
+p = parameters.Parameters()
 
 ###############################################################
 ##

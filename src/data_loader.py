@@ -11,7 +11,7 @@ import cv2
 import json
 import random
 from copy import deepcopy
-from . import parameters
+import parameters
 
 
 #########################################################################
@@ -44,14 +44,14 @@ class Generator(object):
         # load training set from curvelanes datasets.
         self.train_data = []
 
-        with open("../dataset/train.txt") as f:
+        with open("./dataset/train.txt") as f:
             self.train_data = f.readlines()
 
         self.size_train = len(self.train_data)
 
         # load test set
         self.test_data = []
-        with open("../dataset/val.txt") as f:
+        with open("./dataset/val.txt") as f:
             self.test_data = f.readlines()
 
         self.size_test = len(self.test_data)
