@@ -16,7 +16,7 @@ import hourglass_network
 from torch.autograd import Function as F
 from _parameters_ import Parameters
 import math
-import util
+import _util_
 import hard_sampling
 
 ############################################################
@@ -58,7 +58,7 @@ class Agent(nn.Module):
     #####################################################
     def make_ground_truth_point(self, target_lanes, target_h):
 
-        target_lanes, target_h = util.sort_batch_along_y(target_lanes, target_h)
+        target_lanes, target_h = _util_.sort_batch_along_y(target_lanes, target_h)
 
         ground = np.zeros((len(target_lanes), 3, self.p.grid_y, self.p.grid_x))
         ground_binary = np.zeros((len(target_lanes), 1, self.p.grid_y, self.p.grid_x))
@@ -174,7 +174,7 @@ class Agent(nn.Module):
         ground_truth_instance = Variable(ground_truth_instance).cuda()
         ground_truth_instance.requires_grad=False
 
-        #util.visualize_gt(ground_truth_point[0], ground_truth_instance[0], inputs[0])
+        #_util_.visualize_gt(ground_truth_point[0], ground_truth_instance[0], inputs[0])
 
         # update lane_detection_network
         result, attentions = self.predict_lanes(inputs)

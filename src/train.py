@@ -66,7 +66,7 @@ def Training():
         lane_agent.training_mode()
         for inputs, target_lanes, target_h, test_image, data_list in loader.Generate(sampling_list):
             #training
-            #util.visualize_points(inputs[0], target_lanes[0], target_h[0])
+            #_util_.visualize_points(inputs[0], target_lanes[0], target_h[0])
             print("epoch : " + str(epoch))
             print("step : " + str(step))
             loss_p = lane_agent.train(inputs, target_lanes, target_h, epoch, lane_agent, data_list)
