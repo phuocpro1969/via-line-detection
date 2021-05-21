@@ -49,7 +49,7 @@ if __name__ == "__main__":
             t_image = cv2.resize(image,(512,256))
             x , y = net.predict(t_image)
             # fits = np.array([np.polyfit(_y, _x, 1) for _x, _y in zip(x, y)])
-            # fits = util.adjust_fits(fits)
+            # fits = _util_.adjust_fits(fits)
             image_points = net.get_image_points()
             # mask = net.get_mask_lane(fits)
             cur_time = time.time()

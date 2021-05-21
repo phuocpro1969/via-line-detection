@@ -143,9 +143,9 @@ def evaluation(loader, lane_agent, index= -1, thresh = p.threshold_point, name =
         x_, y_ = fitting(x_, y_, target_h, ratio_w, ratio_h)
         result_data = write_result_json(result_data, x_, y_, testset_index)
 
-        #util.visualize_points_origin_size(x_[0], y_[0], test_image[0], ratio_w, ratio_h)
+        #_util_.visualize_points_origin_size(x_[0], y_[0], test_image[0], ratio_w, ratio_h)
         #print(gt.shape)
-        #util.visualize_points_origin_size(gt[0], y_[0], test_image[0], ratio_w, ratio_h)
+        #_util_.visualize_points_origin_size(gt[0], y_[0], test_image[0], ratio_w, ratio_h)
 
         progressbar.update(1)
     progressbar.close()

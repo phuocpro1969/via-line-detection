@@ -173,7 +173,7 @@ class Agent(nn.Module):
         ground_truth_instance = Variable(ground_truth_instance).cuda()
         ground_truth_instance.requires_grad=False
 
-        #util.visualize_gt(ground_truth_point[0], ground_truth_instance[0], inputs[0])
+        #_util_.visualize_gt(ground_truth_point[0], ground_truth_instance[0], inputs[0])
 
         # update lane_detection_network
         result, attentions = self.predict_lanes(inputs)
