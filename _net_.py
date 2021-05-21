@@ -1,7 +1,8 @@
 import sys
 import os
-py_file_location = "/content/via-line-detection"
-sys.path.append(os.path.abspath(py_file_location))
+py_file_location = "/content/via-line-detection/src"
+if os.path.abspath(py_file_location) not in sys.path:
+    sys.path.append(os.path.abspath(py_file_location))
 
 import cv2
 import torch
