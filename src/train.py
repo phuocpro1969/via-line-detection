@@ -9,10 +9,10 @@ import torch
 import agent
 import numpy as np
 from data_loader import Generator
-from parameters import Parameters
+from _parameters_ import Parameters
 import test
 import evaluation
-import util
+import _util_
 import copy
 
 p = Parameters()
