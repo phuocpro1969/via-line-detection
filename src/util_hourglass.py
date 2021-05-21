@@ -1,14 +1,18 @@
-import sys
+#########################################################################
+##
+## Some utility for training, data processing, and network.
+##
+#########################################################################
+
 import os
-py_file_location = "/content/via-line-detection/src"
+import sys
+py_file_location = "/content/line_detect/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
 
-
-
 import torch
 import torch.nn as nn
-from _parameters_ import Parameters
+from parameters import Parameters
 # from src.parameters import Parameters
 
 p = Parameters()

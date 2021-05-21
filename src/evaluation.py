@@ -1,9 +1,8 @@
-import sys
 import os
-py_file_location = "/content/via-line-detection/src"
+import sys
+py_file_location = "/content/line_detect/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
-
 
 import numpy as np
 from sklearn.linear_model import LinearRegression

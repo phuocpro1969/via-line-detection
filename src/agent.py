@@ -1,8 +1,14 @@
-import sys
 import os
-py_file_location = "/content/via-line-detection/src"
+import sys
+py_file_location = "/content/line_detect/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
+
+#########################################################################
+##
+## train agent that has some utility for training and saving.
+##
+#########################################################################
 
 import torch.nn as nn
 import torch
@@ -12,9 +18,9 @@ import numpy as np
 from torch.autograd import Variable
 from hourglass_network import lane_detection_network
 from torch.autograd import Function as F
-from _parameters_ import Parameters
+from parameters import Parameters
 import math
-import _util_
+import util
 import hard_sampling
 
 ############################################################
@@ -56,7 +62,7 @@ class Agent(nn.Module):
     #####################################################
     def make_ground_truth_point(self, target_lanes, target_h):
 
-        target_lanes, target_h = _util_.sort_batch_along_y(target_lanes, target_h)
+        target_lanes, target_h = util.sort_batch_along_y(target_lanes, target_h)
 
         ground = np.zeros((len(target_lanes), 3, self.p.grid_y, self.p.grid_x))
         ground_binary = np.zeros((len(target_lanes), 1, self.p.grid_y, self.p.grid_x))
@@ -172,7 +178,7 @@ class Agent(nn.Module):
         ground_truth_instance = Variable(ground_truth_instance).cuda()
         ground_truth_instance.requires_grad=False
 
-        #_util_.visualize_gt(ground_truth_point[0], ground_truth_instance[0], inputs[0])
+        #util.visualize_gt(ground_truth_point[0], ground_truth_instance[0], inputs[0])
 
         # update lane_detection_network
         result, attentions = self.predict_lanes(inputs)

@@ -1,18 +1,24 @@
-import sys
 import os
-py_file_location = "/content/via-line-detection/src"
+import sys
+py_file_location = "/content/line_detect/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
+    
+#############################################################################################################
+##
+##  Source code for training. In this source code, there are initialize part, training part, ...
+##
+#############################################################################################################
 
 import cv2
 import torch
 import agent
 import numpy as np
 from data_loader import Generator
-from _parameters_ import Parameters
+from parameters import Parameters
 import test
 import evaluation
-import _util_
+import util
 import copy
 
 p = Parameters()
@@ -65,7 +71,7 @@ def Training():
         lane_agent.training_mode()
         for inputs, target_lanes, target_h, test_image, data_list in loader.Generate(sampling_list):
             #training
-            #_util_.visualize_points(inputs[0], target_lanes[0], target_h[0])
+            #util.visualize_points(inputs[0], target_lanes[0], target_h[0])
             print("epoch : " + str(epoch))
             print("step : " + str(step))
             loss_p = lane_agent.train(inputs, target_lanes, target_h, epoch, lane_agent, data_list)

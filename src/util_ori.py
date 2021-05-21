@@ -1,9 +1,9 @@
-import sys
 import os
-py_file_location = "/content/via-line-detection/src"
+import sys
+py_file_location = "/content/line_detect/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
-    
+
 import torch.nn as nn
 import cv2
 import torch
@@ -11,7 +11,7 @@ from copy import deepcopy
 import numpy as np
 from torch.autograd import Variable
 from torch.autograd import Function as F
-from _parameters_ import Parameters
+from parameters import Parameters
 # from src.parameters import Parameters
 
 import math

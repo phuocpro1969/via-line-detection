@@ -1,6 +1,6 @@
-import sys
 import os
-py_file_location = "/content/via-line-detection/src"
+import sys
+py_file_location = "/content/line_detect"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
 
@@ -10,9 +10,9 @@ import time
 import argparse
 import numpy as np
 
-# from src._util_ import adjust_fits
-from _net_ import Net
-from src._parameters_ import Parameters
+from src import util
+from net import Net
+from src.parameters import Parameters
 from src.processing_image import warp_image
 
 if __name__ == "__main__":
@@ -26,7 +26,7 @@ if __name__ == "__main__":
     net = Net()
     p = Parameters()
     # load model epoch 34 with total loss is 0.7828
-    net.load_model(1, 0.8777)
+    net.load_model(1,0.8777)
 
     # read image from folder images test
     if args['option'] == 'image':
@@ -34,16 +34,16 @@ if __name__ == "__main__":
         image = cv2.imread(args['direction'])
 
         image_resized = cv2.resize(image,(512,256))
-        # cv2.imshow("image",image_resized)
+        cv2.imshow("image",image_resized)
 
         #x , y are position of points in lines 
         #because previous image is warped -> warp = False
         x , y = net.predict(image_resized, warp = False)
         print(x, y)
         image_points_result = net.get_image_points()
-        # cv2.imshow("points", image_points_result)
+        cv2.imshow("points", image_points_result)
         cv2.imwrite("result.png",image_points_result)
-        # cv2.waitKey()
+        cv2.waitKey()
     if args['option'] == 'video':
         cap = cv2.VideoCapture(args['direction'])
         if args['save_video']:
@@ -55,7 +55,7 @@ if __name__ == "__main__":
             t_image = cv2.resize(image,(512,256))
             x , y = net.predict(t_image)
             # fits = np.array([np.polyfit(_y, _x, 1) for _x, _y in zip(x, y)])
-            # fits = _util_.adjust_fits(fits)
+            # fits = util.adjust_fits(fits)
             image_points = net.get_image_points()
             # mask = net.get_mask_lane(fits)
             cur_time = time.time()
@@ -63,9 +63,8 @@ if __name__ == "__main__":
             s = "FPS : "+ str(fps)
             # image_lane = net.get_image_lane()
             cv2.putText(image_points, s, (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
-            # cv2.imshow("image", image_points)
-            if args['save_video']:
-                out.write(image_points)
+            cv2.imshow("image",image_points)
+            out.write(image_points)
             
             key = cv2.waitKey(1)
             if not ret or key == ord('q'):

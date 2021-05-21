@@ -1,6 +1,11 @@
-import sys
+#########################################################################
+##
+##  Data loader source code for TuSimple dataset
+##
+#########################################################################
 import os
-py_file_location = "/content/via-line-detection/src"
+import sys
+py_file_location = "/content/line_detect/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
 
@@ -10,7 +15,7 @@ import cv2
 import json
 import random
 from copy import deepcopy
-from _parameters_ import Parameters
+from parameters import Parameters
 
 
 #########################################################################
