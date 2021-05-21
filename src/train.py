@@ -1,8 +1,7 @@
-#############################################################################################################
-##
-##  Source code for training. In this source code, there are initialize part, training part, ...
-##
-#############################################################################################################
+import sys
+import os
+py_file_location = "/content/via-line-detection/src"
+sys.path.append(os.path.abspath(py_file_location))
 
 import cv2
 import torch

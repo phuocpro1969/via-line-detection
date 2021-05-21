@@ -1,3 +1,8 @@
+import sys
+import os
+py_file_location = "/content/via-line-detection"
+sys.path.append(os.path.abspath(py_file_location))
+
 import cv2
 import torch
 import numpy as np

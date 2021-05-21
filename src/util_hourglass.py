@@ -1,3 +1,10 @@
+import sys
+import os
+py_file_location = "/content/via-line-detection/src"
+sys.path.append(os.path.abspath(py_file_location))
+
+
+
 import torch
 import torch.nn as nn
 from _parameters_ import Parameters

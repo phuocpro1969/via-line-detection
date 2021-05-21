@@ -1,9 +1,7 @@
-
-#########################################################################
-##
-## train agent that has some utility for training and saving.
-##
-#########################################################################
+import sys
+import os
+py_file_location = "/content/via-line-detection/src"
+sys.path.append(os.path.abspath(py_file_location))
 
 import torch.nn as nn
 import torch

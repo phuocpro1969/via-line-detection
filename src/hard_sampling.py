@@ -1,4 +1,8 @@
 import numpy
+import sys
+import os
+py_file_location = "/content/via-line-detection/src"
+sys.path.append(os.path.abspath(py_file_location))
 
 class hard_sampling():
     def __init__(self):
