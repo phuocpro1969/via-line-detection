@@ -10,7 +10,7 @@ class Parameters():
     save_path = "savefile/"
     # train from scratch.
     model_path = "savefile/"
-    batch_size = 16
+    batch_size = 8
     x_size = 512
     y_size = 256
     resize_ratio = 8
