@@ -1,7 +1,7 @@
 import cv2
 import torch
 import numpy as np
-from src import util
+from src._util_ import draw_points
 from src.processing_image import warp_image
 from src.hourglass_network import lane_detection_network
 from src._parameters_ import Parameters
@@ -63,7 +63,7 @@ class Net(object):
         return self.x, self.y
 
     def get_image_points(self):
-        result_image = util.draw_points(self.x, self.y, deepcopy(self.warped))
+        result_image = draw_points(self.x, self.y, deepcopy(self.warped))
         return result_image
 
     def get_image_lane(self):
