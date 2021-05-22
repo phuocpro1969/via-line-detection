@@ -50,7 +50,7 @@ if __name__ == "__main__":
         while cap.isOpened():
             prevTime = time.time()
             ret, image = cap.read()
-            if image and type(image) is None:
+            if image and type(image) is not None:
               t_image = cv2.resize(image,(512,256))
               x , y = net.predict(t_image)
               # fits = np.array([np.polyfit(_y, _x, 1) for _x, _y in zip(x, y)])
