@@ -1,26 +1,21 @@
 import os
 import sys
-py_file_location = "/content/via-line-detect/src"
+py_file_location = "/content/via-line-detection/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
-#############################################################################################################
-##
-##  Parameters
-##
-#############################################################################################################
+
 import numpy as np
 import cv2
 
 class Parameters():
     # thay đổi số lượng epoch ở đây
     n_epoch = 30
-
     l_rate = 0.0001
     weight_decay=1e-5
     save_path = "savefile/"
     # train from scratch.
     model_path = "savefile/"
-    batch_size = 16
+    batch_size = 8
     x_size = 512
     y_size = 256
     resize_ratio = 8
@@ -33,7 +28,7 @@ class Parameters():
     threshold_instance = 0.1
 
     #loss function parameter
-    K1 = 1.0                     #  ####################################
+    K1 = 1.0                     
     K2 = 2.0
     constant_offset = 0.2
     constant_exist = 1.0 #2.0#1.0    #8
@@ -44,7 +39,7 @@ class Parameters():
     constant_alpha = 0.5 #in SGPN paper, they increase this factor by 2 every 5 epochs
     constant_beta = 0.5
     constant_l = 1.0
-    constant_lane_loss = 1.0  #10  ######################################
+    constant_lane_loss = 1.0  #10  
     constant_instance_loss = 1.0
 
     #data loader parameter

@@ -1,6 +1,6 @@
 import os
 import sys
-py_file_location = "/content/via-line-detect/src"
+py_file_location = "/content/via-line-detection/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
 
@@ -18,12 +18,6 @@ from parameters import Parameters
 import math
 
 p = Parameters()
-
-###############################################################
-##
-## visualize
-## 
-###############################################################
 
 def visualize_points(image, x, y):
     image = image
@@ -109,11 +103,7 @@ def draw_poly(poly, image, color):
     cv2.polylines(image, [draw_points], False, color,3)
     return image
 
-###############################################################
-##
-## calculate
-## 
-###############################################################
+# calculate
 def adjust_fits(fits):
     min_y = 20
     len_fit = fits.shape[0]

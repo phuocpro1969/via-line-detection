@@ -1,6 +1,6 @@
 import os
 import sys
-py_file_location = "/content/via-line-detect"
+py_file_location = "/content/via-line-detection"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
 import cv2
@@ -153,7 +153,7 @@ def eliminate_fewer_points(x, y):
 if __name__ == "__main__":
     net = Net()
     net.load_model(34,0.7828)
-    image = cv2.imread("images_test/2lines-00000522.jpg")
+    image = cv2.imread("images_test/2lines-00001446.jpg")
     image = cv2.resize(image,(512,256))
     x, y = net.predict(image, warp=False)
     print(x, y)

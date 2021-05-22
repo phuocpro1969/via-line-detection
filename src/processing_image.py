@@ -1,6 +1,6 @@
 import os
 import sys
-py_file_location = "/content/via-line-detect/src"
+py_file_location = "/content/via-line-detection/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
 
@@ -19,7 +19,3 @@ def warp_image(img):
 
     return warped_img
 
-
-
-
-################## find line avaiable ######################

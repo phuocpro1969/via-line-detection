@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-o','--option', type=str, default='image', help="demo line detection on 'image' or 'video', default 'image' ", required=True)
-    parser.add_argument('-d','--direction', type=str, default="", help='direction of demo video', required=True)
+    parser.add_argument('-d','--direction', type=str, default="", help='direction of demo video')
     parser.add_argument('-s','--save_video', type=bool, default=False)
     args = vars(parser.parse_args())
     
@@ -30,25 +30,23 @@ if __name__ == "__main__":
 
     # read image from folder images test
     if args['option'] == 'image':
-
+        print(args['direction'])
         image = cv2.imread(args['direction'])
-
         image_resized = cv2.resize(image,(512,256))
-        cv2.imshow("image",image_resized)
-
+        # cv2.imshow("image",image_resized)
         #x , y are position of points in lines 
         #because previous image is warped -> warp = False
         x , y = net.predict(image_resized, warp = False)
         print(x, y)
         image_points_result = net.get_image_points()
-        cv2.imshow("points", image_points_result)
-        cv2.imwrite("result.png",image_points_result)
-        cv2.waitKey()
+        # cv2.imshow("points", image_points_result)
+        cv2.imwrite("result2.png",image_points_result)
+        # cv2.waitKey()
     if args['option'] == 'video':
         cap = cv2.VideoCapture(args['direction'])
         if args['save_video']:
-            fourcc = cv2.VideoWriter_fourcc(*'XVID')
-            out = cv2.VideoWriter('result-point.avi', fourcc, 30, (512,256))
+          fourcc = cv2.VideoWriter_fourcc(*'XVID')
+          out = cv2.VideoWriter('result-point.avi', fourcc, 30, (512,256))
         while cap.isOpened():
             prevTime = time.time()
             ret, image = cap.read()
@@ -63,11 +61,10 @@ if __name__ == "__main__":
             s = "FPS : "+ str(fps)
             # image_lane = net.get_image_lane()
             cv2.putText(image_points, s, (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
-            cv2.imshow("image",image_points)
-            out.write(image_points)
-            
+            # cv2.imshow("image",image_points)
+            if args['save_video']:
+              out.write(image_points)
             key = cv2.waitKey(1)
             if not ret or key == ord('q'):
                 break
-        
         out.release()

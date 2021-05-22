@@ -1,12 +1,6 @@
-#########################################################################
-##
-## Some utility for training, data processing, and network.
-##
-#########################################################################
-
 import os
 import sys
-py_file_location = "/content/via-line-detect/src"
+py_file_location = "/content/via-line-detection/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
 
@@ -19,12 +13,6 @@ p = Parameters()
 
 def backward_hook(self, grad_input, grad_output):
     print('grad_input norm:', grad_input[0].data.norm())
-
-######################################################################
-##
-## Convolution layer modules
-##
-######################################################################
 class Conv2D_BatchNorm_Relu(nn.Module):
     def __init__(self, in_channels, n_filters, k_size, padding, stride, bias=True, acti=True, dilation=1):
         super(Conv2D_BatchNorm_Relu, self).__init__()

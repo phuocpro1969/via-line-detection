@@ -1,14 +1,8 @@
 import os
 import sys
-py_file_location = "/content/via-line-detect/src"
+py_file_location = "/content/via-line-detection/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
-
-#########################################################################
-##
-## train agent that has some utility for training and saving.
-##
-#########################################################################
 
 import torch.nn as nn
 import torch
@@ -22,17 +16,8 @@ from parameters import Parameters
 import math
 import util
 import hard_sampling
-
-############################################################
-##
-## agent for lane detection
-##
-############################################################
 class Agent(nn.Module):
 
-    #####################################################
-    ## Initialize
-    #####################################################
     def __init__(self):
         super(Agent, self).__init__()
 
@@ -57,9 +42,7 @@ class Agent(nn.Module):
                                                     lr=self.p.l_rate,
                                                     weight_decay=self.p.weight_decay)
 
-    #####################################################
-    ## Make ground truth for key point estimation
-    #####################################################
+    # Make ground truth for key point estimation
     def make_ground_truth_point(self, target_lanes, target_h):
 
         target_lanes, target_h = util.sort_batch_along_y(target_lanes, target_h)
@@ -86,10 +69,7 @@ class Agent(nn.Module):
 
         return ground, ground_binary
 
-
-    #####################################################
-    ## Make ground truth for instance feature
-    #####################################################
+    # Make ground truth for instance feature
     def make_ground_truth_instance(self, target_lanes, target_h):
 
         ground = np.zeros((len(target_lanes), 1, self.p.grid_y*self.p.grid_x, self.p.grid_y*self.p.grid_x))
@@ -149,16 +129,13 @@ class Agent(nn.Module):
 
         return ground
 
-    #####################################################
-    ## train
-    #####################################################
+    # train
     def train(self, inputs, target_lanes, target_h, epoch, agent, data_list):
         point_loss = self.train_point(inputs, target_lanes, target_h, epoch, data_list)
         return point_loss
 
-    #####################################################
-    ## compute loss function and optimize
-    #####################################################
+    # compute loss function and optimize
+    
     def train_point(self, inputs, target_lanes, target_h, epoch, data_list):
         real_batch_size = len(target_lanes)
 
@@ -191,7 +168,7 @@ class Agent(nn.Module):
         sisc_loss = 0
         disc_loss = 0
 
-        # hard sampling ##################################################################
+        # hard sampling 
         confidance, offset, feature = result[-1]
         hard_loss = 0
 
@@ -213,7 +190,7 @@ class Agent(nn.Module):
         for (confidance, offset, feature) in result:
             #compute loss for point prediction
 
-            #exist confidance loss##########################
+            #exist confidance loss
             #confidance = torch.sigmoid(confidance)
             confidance_gt = ground_truth_point[:, 0, :, :]
             confidance_gt = confidance_gt.view(real_batch_size, 1, self.p.grid_y, self.p.grid_x)
@@ -222,13 +199,13 @@ class Agent(nn.Module):
                                 torch.sum( (1-confidance[confidance_gt==1])**2 )/\
                                 torch.sum(confidance_gt==1)
 
-            #non exist confidance loss##########################
+            #non exist confidance loss
             target = confidance[confidance_gt==0]
             nonexist_confidence_loss =  nonexist_confidence_loss +\
                                 torch.sum( ( target[target>0.01] )**2 )/\
                                 (torch.sum(target>0.01)+1)
 
-            #offset loss ##################################
+            #offset loss 
             offset_x_gt = ground_truth_point[:, 1:2, :, :]
             offset_y_gt = ground_truth_point[:, 2:3, :, :]
 
@@ -241,7 +218,7 @@ class Agent(nn.Module):
                                     torch.sum( (offset_y_gt[confidance_gt==1] - predict_y[confidance_gt==1])**2 )/\
                                         torch.sum(confidance_gt==1)
 
-            #compute loss for similarity #################
+            #compute loss for similarity 
             feature_map = feature.view(real_batch_size, self.p.feature_size, 1, self.p.grid_y*self.p.grid_x)
             feature_map = feature_map.expand(real_batch_size, self.p.feature_size, self.p.grid_y*self.p.grid_x, self.p.grid_y*self.p.grid_x)#.detach()
 
@@ -347,18 +324,12 @@ class Agent(nn.Module):
 
         return lane_detection_loss
 
-    #####################################################
-    ## predict lanes
-    #####################################################
     def predict_lanes(self, inputs):
         inputs = torch.from_numpy(inputs).float() 
         inputs = Variable(inputs).cuda()
 
         return self.lane_detection_network(inputs)
 
-    #####################################################
-    ## predict lanes in test
-    #####################################################
     def predict_lanes_test(self, inputs):
         inputs = torch.from_numpy(inputs).float() 
         inputs = Variable(inputs).cuda()
@@ -366,39 +337,24 @@ class Agent(nn.Module):
         outputs, features = self.lane_detection_network(inputs)
 
         return outputs
-
-    #####################################################
-    ## Training mode
-    #####################################################                                                
+                                              
     def training_mode(self):
         self.lane_detection_network.train()
-
-    #####################################################
-    ## evaluate(test mode)
-    #####################################################                                                
+                                           
     def evaluate_mode(self):
         self.lane_detection_network.eval()
-
-    #####################################################
-    ## Setup GPU computation
-    #####################################################                                                
+                                            
     def cuda(self):
         #GPU_NUM = 1
         #device = torch.device(f'cuda:{GPU_NUM}' if torch.cuda.is_available() else 'cpu')
         #torch.cuda.set_device(device) 
         self.lane_detection_network.cuda()
 
-    #####################################################
-    ## Load save file
-    #####################################################
     def load_weights(self, epoch, loss):
         self.lane_detection_network.load_state_dict(
             torch.load(self.p.model_path+str(epoch)+'_'+str(loss)+'_'+'lane_detection_network.pkl', map_location='cuda:0'), False
         )
 
-    #####################################################
-    ## Save model
-    #####################################################
     def save_model(self, epoch, loss):
         torch.save(
             self.lane_detection_network.state_dict(),

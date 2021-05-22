@@ -1,11 +1,6 @@
-#########################################################################
-##
-##  Data loader source code for TuSimple dataset
-##
-#########################################################################
 import os
 import sys
-py_file_location = "/content/via-line-detect/src"
+py_file_location = "/content/via-line-detection/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
 
@@ -17,10 +12,6 @@ import random
 from copy import deepcopy
 from parameters import Parameters
 
-
-#########################################################################
-## some iamge transform utils
-#########################################################################
 def Translate_Points(point,translation): 
     point = point + translation 
     
@@ -34,14 +25,7 @@ def Rotate_Points(origin, point, angle):
     qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
     return qx, qy
 
-
-#########################################################################
-## Data loader class
-#########################################################################
 class Generator(object):
-    ################################################################################
-    ## initialize (load data set from url)
-    ################################################################################
     def __init__(self):
         self.p = Parameters()
 
@@ -60,9 +44,6 @@ class Generator(object):
 
         self.size_test = len(self.test_data)
 
-    #################################################################################################################
-    ## Generate data as much as batchsize and augment data (filp, translation, rotation, gaussian noise, scaling)
-    #################################################################################################################
     def Generate(self, sampling_list = None): 
         cuts = [(b, min(b + self.p.batch_size, self.size_train)) for b in range(0, self.size_train, self.p.batch_size)]
         for start, end in cuts:
@@ -79,9 +60,6 @@ class Generator(object):
 
             yield self.inputs/255.0, self.target_lanes, self.target_h, self.test_image/255.0, self.data_list  # generate normalized image
 
-    #################################################################################################################
-    ## Generate test data
-    #################################################################################################################
     def Generate_Test(self): 
         cuts = [(b, min(b + self.p.batch_size, self.size_test)) for b in range(0, self.size_test, self.p.batch_size)]
         for start, end in cuts:
@@ -89,9 +67,6 @@ class Generator(object):
 
             yield test_image/255.0, target_h, ratio_w, ratio_h, path, gt
 
-    #################################################################################################################
-    ## resize original image to 512*256 and matching correspond points
-    #################################################################################################################
     def Resize_data_test(self, start, end):
         inputs = []
         path = []
@@ -281,16 +256,10 @@ class Generator(object):
 
         return np.array(out_x), np.array(out_y)
 
-    #################################################################################################################
-    ## Generate random unique indices according to ratio
-    #################################################################################################################
     def Random_indices(self, ratio):
         size = int(self.actual_batchsize * ratio)
         return np.random.choice(self.actual_batchsize, size, replace=False)
 
-    #################################################################################################################
-    ## Add Gaussian noise
-    #################################################################################################################
     def Gaussian(self):
         indices = self.Random_indices(self.p.noise_ratio)
         img = np.zeros((256,512,3), np.uint8)
@@ -306,9 +275,6 @@ class Generator(object):
             test_image =  np.rollaxis(test_image, axis=2, start=0)
             self.inputs[i] = test_image
 
-    #################################################################################################################
-    ## Change intensity
-    #################################################################################################################
     def Change_intensity(self):
         indices = self.Random_indices(self.p.intensity_ratio)
         for i in indices:
@@ -332,9 +298,6 @@ class Generator(object):
             test_image =  np.rollaxis(test_image, axis=2, start=0)
             self.inputs[i] = test_image
 
-    #################################################################################################################
-    ## Generate random shadow in random region
-    #################################################################################################################
     def Shadow(self, min_alpha=0.5, max_alpha = 0.75):
         indices = self.Random_indices(self.p.shadow_ratio)
         for i in indices:
@@ -362,9 +325,6 @@ class Generator(object):
                 shadow_img =  np.rollaxis(shadow_img, axis=2, start=0)
                 self.inputs[i] = shadow_img
 
-    #################################################################################################################
-    ## Flip
-    #################################################################################################################
     def Flip(self):
         indices = self.Random_indices(self.p.flip_ratio)
         for i in indices:
@@ -384,9 +344,6 @@ class Generator(object):
 
             self.target_lanes[i] = x
 
-    #################################################################################################################
-    ## Translation
-    #################################################################################################################
     def Translation(self):
         indices = self.Random_indices(self.p.translation_ratio)
         for i in indices:
@@ -416,9 +373,6 @@ class Generator(object):
             self.target_lanes[i] = x
             self.target_h[i] = y
 
-    #################################################################################################################
-    ## Rotate
-    #################################################################################################################
     def Rotate(self):
         indices = self.Random_indices(self.p.rotate_ratio)
         for i in indices:

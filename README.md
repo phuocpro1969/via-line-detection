@@ -40,7 +40,7 @@ Video
 
 ## Cài đặt môi trường
 
-- Cài đặt python >= 3.6
+- Cài đặt python >= 3.7
 
 - Cài đặt môi trường và tạo môi trường mới:
 ```

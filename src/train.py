@@ -1,15 +1,9 @@
 import os
 import sys
-py_file_location = "/content/via-line-detect/src"
+py_file_location = "/content/via-line-detection/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
     
-#############################################################################################################
-##
-##  Source code for training. In this source code, there are initialize part, training part, ...
-##
-#############################################################################################################
-
 import cv2
 import torch
 import agent
@@ -23,28 +17,11 @@ import copy
 
 p = Parameters()
 
-###############################################################
-##
-## Training
-## 
-###############################################################
 def Training():
     print('Training')
-
-    ####################################################################
-    ## Hyper parameter
-    ####################################################################
-    print('Initializing hyper parameter')
-    
-    #########################################################################
-    ## Get dataset
-    #########################################################################
     print("Get dataset")
     loader = Generator()
-
-    ##############################
-    ## Get agent and model
-    ##############################
+    # Get agent and model
     print('Get agent')
     if p.model_path == "":
         lane_agent = agent.Agent()
@@ -52,17 +29,13 @@ def Training():
         lane_agent = agent.Agent()
         lane_agent.load_weights(34, "tensor(0.7828)")
 
-    ##############################
-    ## Check GPU
-    ##############################
+    # Check GPU
     print('Setup GPU mode')
     if torch.cuda.is_available():
         lane_agent.cuda()
         #torch.backends.cudnn.benchmark=True
 
-    ##############################
-    ## Loop for training
-    ##############################
+    # Loop for training
     print('Training loop')
     step = 0
     sampling_list = None

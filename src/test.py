@@ -1,12 +1,6 @@
-#############################################################################################################
-##
-##  Source code for testing
-##
-#############################################################################################################
-
 import os
 import sys
-py_file_location = "/content/via-line-detect/src"
+py_file_location = "/content/via-line-detection/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
 
@@ -27,24 +21,13 @@ import os
 
 p = Parameters()
 
-###############################################################
-##
-## Training
-## 
-###############################################################
 def Testing():
     print('Testing')
     
-    #########################################################################
-    ## Get dataset
-    #########################################################################
     if p.mode != 2:
         print("Get dataset")
         loader = Generator()
 
-    ##############################
-    ## Get agent and model
-    ##############################
     print('Get agent')
     if p.model_path == "":
         lane_agent = agent.Agent()
@@ -53,17 +36,10 @@ def Testing():
         # lane_agent.load_weights(804, "tensor(0.5786)")
         lane_agent.load_weights(34, "tensor(0.7828)")
 
-        
-    ##############################
-    ## Check GPU
-    ##############################
     print('Setup GPU mode')
     if torch.cuda.is_available():
         lane_agent.cuda()
 
-    ##############################
-    ## testing
-    ##############################
     print('Testing loop')
     lane_agent.evaluate_mode()
 
@@ -130,9 +106,6 @@ def Testing():
         print("evaluate")
         evaluation(loader, lane_agent)
 
-############################################################################
-## evaluate on the test dataset
-############################################################################
 def evaluation(loader, lane_agent, index= -1, thresh = p.threshold_point, name = None):
     result_data = deepcopy(loader.test_data)
     ##batch size = 16
@@ -167,9 +140,6 @@ def evaluation(loader, lane_agent, index= -1, thresh = p.threshold_point, name =
     else:
         save_result(result_data, name)
 
-############################################################################
-## linear interpolation for fixed y value on the test dataset, if you want to use python2, use this code
-############################################################################
 def find_target(x, y, target_h, ratio_w, ratio_h):
     # find exact points on target_h
     out_x = []
@@ -294,9 +264,7 @@ def fitting(x, y, target_h, ratio_w, ratio_h):
 
     return out_x, out_y
 
-############################################################################
-## write result
-############################################################################
+# write result
 def write_result_json(result_data, x, y, testset_index):
     for index, batch_idx in enumerate(testset_index):
         for i in x[index]:
@@ -304,18 +272,15 @@ def write_result_json(result_data, x, y, testset_index):
             result_data[batch_idx]['run_time'] = 1
     return result_data
 
-############################################################################
-## save result by json form
-############################################################################
+
+# save result by json form
 def save_result(result_data, fname):
     with open(fname, 'w') as make_file:
         for i in result_data:
             json.dump(i, make_file, separators=(',', ': '))
             make_file.write("\n")
 
-############################################################################
-## test on the input test image
-############################################################################
+# test on the input test image
 def test(lane_agent, test_images, thresh = p.threshold_point, index= -1):
 
     result = lane_agent.predict_lanes_test(test_images)
@@ -362,9 +327,8 @@ def test(lane_agent, test_images, thresh = p.threshold_point, index= -1):
         
     return out_x, out_y,  out_images
 
-############################################################################
-## test on the input test image,and show result on original output.
-############################################################################
+
+# test on the input test image,and show result on original output.
 def test_ori(lane_agent, ori_image, test_images,w_ratio, h_ratio, draw_type, thresh=p.threshold_point):  # p.threshold_point:0.81
 
     result = lane_agent.predict_lanes_test(test_images)
@@ -404,11 +368,11 @@ def test_ori(lane_agent, ori_image, test_images,w_ratio, h_ratio, draw_type, thr
         in_x, in_y = util.sort_along_y(in_x, in_y)  
 
         if draw_type == 'line':
-            result_image = util.draw_lines_ori(in_x, in_y, ori_image,w_ratio, h_ratio)  # 将最后且后处理后的拟合曲线绘制与原图上.
+            result_image = util.draw_lines_ori(in_x, in_y, ori_image,w_ratio, h_ratio)  
         elif draw_type == 'point':
-            result_image = util.draw_point_ori(in_x, in_y, ori_image,w_ratio, h_ratio)  # 将最后且后处理后的坐标点绘制与原图上.
+            result_image = util.draw_point_ori(in_x, in_y, ori_image,w_ratio, h_ratio)  
         else:
-            result_image = util.draw_points(in_x, in_y,deepcopy(image))  # 将最后且后处理后的坐标点绘制于resize图上.
+            result_image = util.draw_points(in_x, in_y,deepcopy(image))  
 
         out_x.append(in_x)
         out_y.append(in_y)
@@ -416,9 +380,8 @@ def test_ori(lane_agent, ori_image, test_images,w_ratio, h_ratio, draw_type, thr
         
     return out_x, out_y,  out_images
 
-############################################################################
-## eliminate result that has fewer points than threshold
-############################################################################
+
+# eliminate result that has fewer points than threshold
 def eliminate_fewer_points(x, y):
     # eliminate fewer points
     out_x = []
@@ -429,9 +392,8 @@ def eliminate_fewer_points(x, y):
             out_y.append(j)     
     return out_x, out_y   
 
-############################################################################
-## generate raw output
-############################################################################
+
+# generate raw output
 def generate_result(confidance, offsets,instance, thresh):
 
     mask = confidance > thresh

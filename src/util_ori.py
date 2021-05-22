@@ -1,6 +1,6 @@
 import os
 import sys
-py_file_location = "/content/via-line-detect/src"
+py_file_location = "/content/via-line-detection/src"
 if os.path.abspath(py_file_location) not in sys.path:
     sys.path.append(os.path.abspath(py_file_location))
 
@@ -26,12 +26,6 @@ def cross_entropy2d(inputs, target, weight=None, size_average=True):
     gt =target.transpose(1, 2).transpose(2, 3).contiguous().view(-1)
 
     return loss(prediction, gt)
-
-###############################################################
-##
-## visualize
-## 
-###############################################################
 
 def visualize_points(image, x, y):
     image = image
@@ -129,9 +123,6 @@ def draw_point_ori(x, y, image, w_ratio, h_ratio):
             image = cv2.circle(image, (int(pts[0]), int(pts[1])), 5, p.color[color_index], -1)  # 5
     return image
 
-######################################################
-### add draw_lines function,back to oringal img.
-########################################################
 # method 1：color choice defferent
 def curve_fit(image, x_list, y_list, color):
 
@@ -144,15 +135,15 @@ def curve_fit(image, x_list, y_list, color):
     # start = min(min(y_list), image.shape[0] / 2)
     start = min(y_list)
     end   = max(max(y_list), image.shape[0] / 2)
-    lspace = np.linspace(start, end, 20) # 等间距采点,限制了输出高度、即也限制了输出距离
+    lspace = np.linspace(start, end, 20) 
     # print("test",np.max(lspace))
     draw_y = lspace
-    draw_x = np.polyval(z, draw_y)   # evaluate the polynomial，自变量draw_x，y不一定单调
+    draw_x = np.polyval(z, draw_y)   # evaluate the polynomial
 
     # base on y,choose h
     x = np.polyval(z, image.shape[0]/1.5)
 
-    draw_points = (np.asarray([draw_x, draw_y]).T).astype(np.int32)   # needs to be int32 and transposed,元素变为pts
+    draw_points = (np.asarray([draw_x, draw_y]).T).astype(np.int32)   # needs to be int32 and transposed
 
     cv2.polylines(image, [draw_points], False, color, 5)
     return image
@@ -164,26 +155,25 @@ def curve_fit(image, x_list, y_list, color):
     # print(type(image))
     x = np.array(x_list)
     y = np.array(y_list)
-    #calculate the coefficients.需要调节选用的曲线次数
-    z = np.polyfit(y, x, 2) # z为多项式系数矩阵，从高次到低次
+    #calculate the coefficients.
+    z = np.polyfit(y, x, 2) 
 
     # start = min(min(y_list), image.shape[0] / 2)
     start = min(y_list)
     end   = max(max(y_list), image.shape[0] / 2)
-    lspace = np.linspace(start, end, 20) # 等间距采点,限制了输出高度、即也限制了输出距离
+    lspace = np.linspace(start, end, 20) 
     # print("test",np.max(lspace))
     draw_y = lspace
-    draw_x = np.polyval(z, draw_y)   # evaluate the polynomial，自变量draw_x，y不一定单调
+    draw_x = np.polyval(z, draw_y)   # evaluate the polynomial
 
     # base on y,choose h
     x = np.polyval(z, image.shape[0]/1.5)
 
-    draw_points = (np.asarray([draw_x, draw_y]).T).astype(np.int32)   # needs to be int32 and transposed,元素变为pts
+    draw_points = (np.asarray([draw_x, draw_y]).T).astype(np.int32)   # needs to be int32 and transposed
 
     cv2.polylines(image, [draw_points], False, color, 5)
     return image
 
-# 绘制网格，确定画线颜色
 def choose_color(x, image_w):
 
     average_x = x
@@ -227,11 +217,6 @@ def draw_lines_ori(x, y, image, w_ratio, h_ratio):
             curve_fit(image, x_list, y_list, p.color[id])
     return image
 
-###############################################################
-##
-## calculate
-## 
-###############################################################
 def convert_to_original_size(x, y, ratio_w, ratio_h):
     # convert results to original size
     out_x = []
