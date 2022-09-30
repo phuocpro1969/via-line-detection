@@ -3,7 +3,7 @@ chardet==4.0.0
 csaps==1.0.3
 future==0.18.2
 idna==2.10
-joblib==1.0.1
+joblib==1.2.0
 jsonpatch==1.32
 jsonpointer==2.1
 numpy==1.19.5
